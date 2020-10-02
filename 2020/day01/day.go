@@ -1,7 +1,9 @@
-package fish
+package day01
 
 import (
 	"fmt"
+	"math"
+	"math/rand"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
@@ -14,7 +16,7 @@ type Day struct {
 }
 
 func (d *Day) Info() string {
-	return fmt.Sprintf("10/01/2020 - (%d) Fish", len(d.Fish))
+	return fmt.Sprintf("2020, Day 1 - Fish (%d of them)", len(d.Fish))
 }
 
 func (d *Day) Update(screen *ebiten.Image) error {
@@ -30,11 +32,25 @@ func (d *Day) Update(screen *ebiten.Image) error {
 		}
 	}
 
-	for i, fish := range d.Fish {
-		err := fish.Update(screen)
-		if err != nil {
-			return fmt.Errorf("fish %d update: %w", i, err)
+	for _, fish := range d.Fish {
+		if fish.X < -W || fish.X >= bw || fish.Y < -H || fish.Y >= bh {
+			fish.Vx = rand.Float64()*W + W/2
+			fish.Vy = rand.Float64()*H + H/2
 		}
+
+		switch {
+		case fish.X < 0:
+			fish.Vx = rand.Float64()*W + W/2
+		case fish.X >= (bw - W):
+			fish.Vx = -(rand.Float64()*W + W/2)
+		case fish.Y < 0:
+			fish.Vy = rand.Float64()*H + H/2
+		case fish.Y >= (bh - H):
+			fish.Vy = -(rand.Float64()*H + H/2)
+		}
+
+		fish.X += fish.Vx / 30
+		fish.Y += fish.Vy / 30
 	}
 
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
@@ -64,7 +80,19 @@ func (d *Day) Update(screen *ebiten.Image) error {
 
 func (d *Day) Draw(screen *ebiten.Image) {
 	for _, fish := range d.Fish {
-		fish.Draw(screen)
+		dio := &ebiten.DrawImageOptions{}
+
+		dio.ColorM.RotateHue(fish.Col * math.Pi * 2)
+		dio.ColorM.Scale(1, 1, 1, 0.9)
+
+		if fish.Vx > 0 {
+			dio.GeoM.Scale(-1, 1)
+			dio.GeoM.Translate(W, 0)
+		}
+
+		dio.GeoM.Translate(fish.X, fish.Y)
+
+		_ = screen.DrawImage(Image, dio)
 	}
 }
 

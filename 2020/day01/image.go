@@ -1,4 +1,4 @@
-package fish
+package day01
 
 import (
 	"image/png"
@@ -16,7 +16,7 @@ const (
 var Cross = math.Sqrt(W*W + H*H)
 
 var Image = func() *ebiten.Image {
-	f, err := pkger.Open("/assets/01_fish.png")
+	f, err := pkger.Open("/2020/day01/assets/fish.png")
 	if err != nil {
 		panic(err)
 	}

@@ -8,6 +8,8 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
+//go:generate pkger
+
 type Ebitober struct {
 	Days []Day
 	Day  int
@@ -27,9 +29,9 @@ func New(days ...Day) *Ebitober {
 func (e *Ebitober) Draw(screen *ebiten.Image) {
 	day := e.Days[e.Day]
 
-	ebitenutil.DebugPrint(screen, "EBITOBER (by superloach)\n\n"+day.Info()+"\n\nPress <- or -> to change days.")
-
 	day.Draw(screen)
+
+	ebitenutil.DebugPrint(screen, "EBITOBER (by superloach)\n\n"+day.Info()+"\n\nPress <- or -> to change days.")
 }
 
 func (e *Ebitober) Update(screen *ebiten.Image) error {
