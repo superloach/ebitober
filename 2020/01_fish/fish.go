@@ -19,55 +19,72 @@ type Fish struct {
 	Col    float64
 }
 
-func RandFish() *Fish {
-	return &Fish{
-		X:   rand.Float64() * 0.8,
-		Y:   rand.Float64() * 0.9,
-		Vx:  rand.Float64(),
-		Vy:  rand.Float64(),
+func FishAt(x, y float64) *Fish {
+	f := &Fish{
+		X:   x,
+		Y:   y,
+		Vx:  rand.Float64()*W + W/2,
+		Vy:  rand.Float64()*H + H/2,
 		Col: rand.Float64(),
 	}
-}
 
-func (f *Fish) Update(screen *ebiten.Image) error {
-	if f.X < 0 || f.X > 0.8 {
+	if rand.Float64() > 0.5 {
 		f.Vx *= -1
 	}
 
-	if f.Y < 0 || f.Y > 0.9 {
+	if rand.Float64() > 0.5 {
 		f.Vy *= -1
 	}
 
-	f.X += f.Vx / 120
-	f.Y += f.Vy / 120
-
-	return nil
+	return f
 }
 
-func (f *Fish) Scale(bw, bh float64) float64 {
-	return math.Sqrt(bw*bw+bh*bh) / (5 * Cross)
+func RandFish(bw, bh float64) *Fish {
+	return FishAt(
+		rand.Float64()*(bw-W),
+		rand.Float64()*(bh-H),
+	)
 }
 
-func (f *Fish) Draw(screen *ebiten.Image) {
+func (f *Fish) Update(screen *ebiten.Image) error {
 	b := screen.Bounds()
 	bw := float64(b.Dx())
 	bh := float64(b.Dy())
 
-	scale := f.Scale(bw, bh)
+	if f.X < -W || f.X >= bw || f.Y < -H || f.Y >= bh {
+		f.Vx = rand.Float64()*W + W/2
+		f.Vy = rand.Float64()*H + H/2
+	}
 
+	switch {
+	case f.X < 0:
+		f.Vx = rand.Float64()*W + W/2
+	case f.X >= (bw - W):
+		f.Vx = -(rand.Float64()*W + W/2)
+	case f.Y < 0:
+		f.Vy = rand.Float64()*H + H/2
+	case f.Y >= (bh - H):
+		f.Vy = -(rand.Float64()*H + H/2)
+	}
+
+	f.X += f.Vx / 30
+	f.Y += f.Vy / 30
+
+	return nil
+}
+
+func (f *Fish) Draw(screen *ebiten.Image) {
 	dio := &ebiten.DrawImageOptions{}
 
 	dio.ColorM.RotateHue(f.Col * math.Pi * 2)
 	dio.ColorM.Scale(1, 1, 1, 0.9)
 
-	dio.GeoM.Scale(scale, scale)
-
 	if f.Vx > 0 {
 		dio.GeoM.Scale(-1, 1)
-		dio.GeoM.Translate(bw/5, 0)
+		dio.GeoM.Translate(W, 0)
 	}
 
-	dio.GeoM.Translate(f.X*bw, f.Y*bh)
+	dio.GeoM.Translate(f.X, f.Y)
 
 	_ = screen.DrawImage(Image, dio)
 }
