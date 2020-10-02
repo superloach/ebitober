@@ -2,15 +2,14 @@ package ebitober
 
 import (
 	"image/png"
+	"net/http"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/markbates/pkger"
 )
 
 //go:generate pkger
 
-func Asset(path string) *ebiten.Image {
-	f, err := pkger.Open(path)
+func Asset(f http.File, err error) *ebiten.Image {
 	if err != nil {
 		panic(err)
 	}

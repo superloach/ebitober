@@ -3,6 +3,7 @@ package day01
 import (
 	"math/rand"
 
+	"github.com/markbates/pkger"
 	"github.com/superloach/ebitober"
 )
 
@@ -11,7 +12,7 @@ const (
 	H = 64
 )
 
-var Image = ebitober.Asset("/2020/day01/assets/fish.png")
+var Image = ebitober.Asset(pkger.Open("/2020/day01/assets/fish.png"))
 
 type Fish struct {
 	X, Y   float64
