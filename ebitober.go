@@ -2,13 +2,13 @@ package ebitober
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
-
-//go:generate pkger
 
 type Ebitober struct {
 	Days []Day
@@ -60,6 +60,8 @@ func (e *Ebitober) Layout(ow, oh int) (int, int) {
 }
 
 func (e *Ebitober) Run() {
+	rand.Seed(time.Now().Unix())
+
 	ebiten.SetWindowResizable(true)
 
 	err := ebiten.RunGame(e)

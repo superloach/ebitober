@@ -2,13 +2,16 @@ package day01
 
 import (
 	"math/rand"
-	"time"
+
+	"github.com/superloach/ebitober"
 )
 
-var _ = func() bool {
-	rand.Seed(time.Now().Unix())
-	return true
-}()
+const (
+	W = 100
+	H = 64
+)
+
+var Image = ebitober.Asset("/2020/day01/assets/fish.png")
 
 type Fish struct {
 	X, Y   float64

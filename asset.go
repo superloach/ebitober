@@ -1,22 +1,16 @@
-package day01
+package ebitober
 
 import (
 	"image/png"
-	"math"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/markbates/pkger"
 )
 
-const (
-	W = 100
-	H = 64
-)
+//go:generate pkger
 
-var Cross = math.Sqrt(W*W + H*H)
-
-var Image = func() *ebiten.Image {
-	f, err := pkger.Open("/2020/day01/assets/fish.png")
+func Asset(path string) *ebiten.Image {
+	f, err := pkger.Open(path)
 	if err != nil {
 		panic(err)
 	}
@@ -33,4 +27,4 @@ var Image = func() *ebiten.Image {
 	}
 
 	return img
-}()
+}
