@@ -53,29 +53,68 @@ func (d *Day) Update(screen *ebiten.Image) error {
 		fish.Y += fish.Vy / 30
 	}
 
-	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
-		cx, cy := ebiten.CursorPosition()
-		fcx, fcy := float64(cx), float64(cy)
-
-		sel := -1
-
-		for i, fish := range d.Fish {
-			if fcx >= fish.X && fcx <= fish.X+W && fcy >= fish.Y && fcy <= fish.Y+H {
-				sel = i
-			}
-		}
-
-		if sel != -1 {
-			l := len(d.Fish) - 1
-			d.Fish[sel] = d.Fish[l]
-			d.Fish[l] = nil
-			d.Fish = d.Fish[:l]
-		} else {
-			d.Fish = append(d.Fish, FishAt(fcx, fcy))
+	for _, btn := range []ebiten.MouseButton{
+		ebiten.MouseButtonLeft,
+		ebiten.MouseButtonMiddle,
+		ebiten.MouseButtonRight,
+	} {
+		if inpututil.IsMouseButtonJustPressed(btn) {
+			cx, cy := ebiten.CursorPosition()
+			d.Click(bw, bh, float64(cx), float64(cy))
 		}
 	}
 
+	if inpututil.IsKeyJustPressed(ebiten.KeyEqual) {
+		d.Click(bw, bh, -1, -1)
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyMinus) {
+		d.Click(bw, bh, -2, -2)
+	}
+
+	for _, tid := range inpututil.JustPressedTouchIDs() {
+		tx, ty := ebiten.TouchPosition(tid)
+		d.Click(bw, bh, float64(tx), float64(ty))
+	}
+
 	return nil
+}
+
+func (d *Day) Click(bw, bh, x, y float64) {
+	if x == -1 && y == -1 {
+		d.Fish = append(d.Fish, RandFish(bw, bh))
+
+		return
+	}
+
+	if x == -2 && y == -2 {
+		l := len(d.Fish) - 1
+
+		d.Fish[l] = nil
+		d.Fish = d.Fish[:l]
+
+		return
+	}
+
+	sel := -1
+
+	for i, fish := range d.Fish {
+		if x >= fish.X && x <= fish.X+W && y >= fish.Y && y <= fish.Y+H {
+			sel = i
+		}
+	}
+
+	if sel != -1 {
+		l := len(d.Fish) - 1
+
+		d.Fish[sel] = d.Fish[l]
+		d.Fish[l] = nil
+		d.Fish = d.Fish[:l]
+
+		return
+	}
+
+	d.Fish = append(d.Fish, FishAt(x, y))
 }
 
 func (d *Day) Draw(screen *ebiten.Image) {

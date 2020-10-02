@@ -31,7 +31,7 @@ func (e *Ebitober) Draw(screen *ebiten.Image) {
 
 	day.Draw(screen)
 
-	ebitenutil.DebugPrint(screen, "EBITOBER (by superloach)\n\n"+day.Info()+"\n\nPress <- or -> to change days.")
+	ebitenutil.DebugPrint(screen, "\n\nEBITOBER (by superloach)\n\n"+day.Info()+"\n\nPress <- or -> to change days.")
 }
 
 func (e *Ebitober) Update(screen *ebiten.Image) error {
