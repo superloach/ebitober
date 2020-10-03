@@ -47,6 +47,7 @@ func (d *Day) Tick(s *ebiten.Image, w, h float64) error {
 	frw, frh := float64(rw), float64(rh)
 
 	d.Ry += float64(d.Score) + 5
+	d.Rx += (d.Wx - d.Rx) / (200 / float64(d.Score+5))
 
 	switch {
 	case d.Ry > h:
