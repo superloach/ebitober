@@ -19,12 +19,12 @@ type Day struct {
 	Score, Hi uint
 }
 
-func New() *Day {
+func New() ebitober.Day {
 	return &Day{
-		Wisp: ebitober.Img("day02/wisp"),
+		Wisp: ebitober.Image("day02/wisp"),
 		Wx:   0,
 
-		Rock: ebitober.Img("day02/rock"),
+		Rock: ebitober.Image("day02/rock"),
 		Rx:   123,
 		Ry:   0,
 

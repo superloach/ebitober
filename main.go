@@ -8,7 +8,7 @@ import (
 
 func main() {
 	ebitober.New(
-		day01.New(13),
-		day02.New(),
+		day01.New,
+		day02.New,
 	).Run()
 }

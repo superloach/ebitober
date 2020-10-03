@@ -8,20 +8,24 @@ import (
 )
 
 type Ebitober struct {
-	Days  []Day
-	Day   int
-	Arrow *ebiten.Image
+	Newers []Newer
+	Days   []Day
+	Day    int
+	Banner *ebiten.Image
+	Arrow  *ebiten.Image
 }
 
-func New(days ...Day) *Ebitober {
-	if len(days) == 0 {
-		panic("need > 0 days")
+func New(ns ...Newer) *Ebitober {
+	if len(ns) == 0 {
+		panic("need > 0 newers")
 	}
 
 	return &Ebitober{
-		Days:  days,
-		Day:   0,
-		Arrow: Img("arrow"),
+		Newers: ns,
+		Days:   make([]Day, 0, len(ns)),
+		Day:    0,
+		Banner: Image("banner"),
+		Arrow:  Image("arrow"),
 	}
 }
 
@@ -33,6 +37,8 @@ func (e *Ebitober) Run() {
 	rand.Seed(time.Now().Unix())
 
 	ebiten.SetWindowResizable(true)
+
+	go e.Load()
 
 	err := ebiten.RunGame(e)
 	if err != nil {

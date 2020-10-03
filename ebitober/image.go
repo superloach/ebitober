@@ -9,7 +9,7 @@ import (
 
 //go:generate pkger
 
-func Img(name string) *ebiten.Image {
+func Image(name string) *ebiten.Image {
 	pkger.Include("/assets")
 
 	f, err := pkger.Open("/assets/" + name + ".png")
