@@ -27,7 +27,7 @@ func New(n int) *Day {
 }
 
 func (d *Day) Info() string {
-	return fmt.Sprintf("2020, Day 1 - Fish (%d of them)", len(d.Fish))
+	return fmt.Sprintf("2020, Day 1 - Fish (%d of them)\n\nClick fish to remove them.\nClick elsewhere to make fish.", len(d.Fish))
 }
 
 func (d *Day) Tick(s *ebiten.Image, w, h float64) error {

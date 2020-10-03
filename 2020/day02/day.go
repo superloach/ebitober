@@ -34,7 +34,7 @@ func New() *Day {
 }
 
 func (d *Day) Info() string {
-	return fmt.Sprintf("2020, Day 2 - Wisp (score %d, hi %d)", d.Score, d.Hi)
+	return fmt.Sprintf("2020, Day 2 - Wisp (score %d, hi %d)\n\nA single rock falls at a time.\nClick to move your wisp and avoid it.", d.Score, d.Hi)
 }
 
 func (d *Day) Tick(s *ebiten.Image, w, h float64) error {
