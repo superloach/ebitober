@@ -1,18 +1,16 @@
 package ebitober
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 
 	"github.com/hajimehoshi/ebiten"
-	"github.com/hajimehoshi/ebiten/ebitenutil"
-	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
 type Ebitober struct {
-	Days []Day
-	Day  int
+	Days  []Day
+	Day   int
+	Arrow *ebiten.Image
 }
 
 func New(days ...Day) *Ebitober {
@@ -21,42 +19,14 @@ func New(days ...Day) *Ebitober {
 	}
 
 	return &Ebitober{
-		Days: days,
-		Day:  0,
+		Days:  days,
+		Day:   0,
+		Arrow: Img("arrow"),
 	}
-}
-
-func (e *Ebitober) Draw(screen *ebiten.Image) {
-	day := e.Days[e.Day]
-
-	day.Draw(screen)
-
-	ebitenutil.DebugPrint(screen, "\n\nEBITOBER (by superloach)\n\n"+day.Info()+"\n\nPress <- or -> to change days.")
-}
-
-func (e *Ebitober) Update(screen *ebiten.Image) error {
-	if inpututil.IsKeyJustPressed(ebiten.KeyRight) {
-		e.Day++
-		e.Day %= len(e.Days)
-	}
-
-	if inpututil.IsKeyJustPressed(ebiten.KeyLeft) {
-		e.Day--
-		e.Day += len(e.Days)
-		e.Day %= len(e.Days)
-	}
-
-	err := e.Days[e.Day].Update(screen)
-	if err != nil {
-		err = fmt.Errorf("day %d update: %w", e.Day, err)
-		return err
-	}
-
-	return nil
 }
 
 func (e *Ebitober) Layout(ow, oh int) (int, int) {
-	return e.Days[e.Day].Layout(ow, oh)
+	return ow, oh
 }
 
 func (e *Ebitober) Run() {

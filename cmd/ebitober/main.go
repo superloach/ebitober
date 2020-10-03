@@ -8,6 +8,6 @@ import (
 
 func main() {
 	ebitober.New(
-		&day01.Day{N: 13},
+		day01.New(13),
 	).Run()
 }

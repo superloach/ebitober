@@ -1,4 +1,5 @@
 go.sum
+pkged.go
 
 # Binaries for programs and plugins
 *.exe

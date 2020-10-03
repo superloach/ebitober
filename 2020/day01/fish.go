@@ -2,17 +2,12 @@ package day01
 
 import (
 	"math/rand"
-
-	"github.com/markbates/pkger"
-	"github.com/superloach/ebitober"
 )
 
 const (
 	W = 100
 	H = 64
 )
-
-var Image = ebitober.Asset(pkger.Open("/2020/day01/assets/fish.png"))
 
 type Fish struct {
 	X, Y   float64
@@ -40,9 +35,9 @@ func FishAt(x, y float64) *Fish {
 	return f
 }
 
-func RandFish(bw, bh float64) *Fish {
+func RandFish(w, h float64) *Fish {
 	return FishAt(
-		rand.Float64()*(bw-W),
-		rand.Float64()*(bh-H),
+		rand.Float64()*(w-W),
+		rand.Float64()*(h-H),
 	)
 }
