@@ -6,7 +6,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten"
 
-	"github.com/superloach/ebitober"
+	"github.com/superloach/ebitober/ebitober"
 )
 
 type Day struct {

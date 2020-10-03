@@ -60,24 +60,16 @@ func (e *Ebitober) Update(s *ebiten.Image) error {
 		e.Click(day, x, y, w, h, dur)
 	}
 
-	if inpututil.IsKeyJustPressed(ebiten.KeyRight) {
-		e.Click(nil, -1, 0, w, h, 0)
-	}
-
-	if inpututil.IsKeyJustPressed(ebiten.KeyLeft) {
-		e.Click(nil, 0, -1, w, h, 0)
-	}
-
 	return nil
 }
 
 func (e *Ebitober) Click(day Day, x, y, w, h float64, dur int) {
 	switch {
-	case x == -1, dur == 1 && x < aW && h-y < aH:
+	case dur == 1 && x < aW && h-y < aH:
 		fmt.Println("prev")
 		e.Day++
 		e.Day %= len(e.Days)
-	case y == -1, dur == 1 && w-x < aW && h-y < aH:
+	case dur == 1 && w-x < aW && h-y < aH:
 		fmt.Println("next")
 		e.Day--
 		e.Day += len(e.Days)

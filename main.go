@@ -1,10 +1,9 @@
 package main
 
 import (
-	"github.com/superloach/ebitober"
-
 	"github.com/superloach/ebitober/2020/day01"
 	"github.com/superloach/ebitober/2020/day02"
+	"github.com/superloach/ebitober/ebitober"
 )
 
 func main() {
