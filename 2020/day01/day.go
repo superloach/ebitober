@@ -77,7 +77,11 @@ func (d *Day) Tick(s *ebiten.Image, w, h float64) error {
 	return nil
 }
 
-func (d *Day) Click(x, y, w, h float64) {
+func (d *Day) Click(x, y, w, h float64, dur int) {
+	if dur > 1 {
+		return
+	}
+
 	sel := -1
 
 	for i, fish := range d.Fish {

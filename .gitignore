@@ -1,5 +1,6 @@
 go.sum
 pkged.go
+*.apk
 
 # Binaries for programs and plugins
 *.exe

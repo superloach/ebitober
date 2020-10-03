@@ -41,44 +41,48 @@ func (e *Ebitober) Update(s *ebiten.Image) error {
 		ebiten.MouseButtonMiddle,
 		ebiten.MouseButtonRight,
 	} {
-		if inpututil.IsMouseButtonJustPressed(btn) {
+		if ebiten.IsMouseButtonPressed(btn) {
 			cx, cy := ebiten.CursorPosition()
 			x, y := float64(cx), float64(cy)
 
-			e.Click(day, x, y, w, h)
+			dur := inpututil.MouseButtonPressDuration(btn)
+
+			e.Click(day, x, y, w, h, dur)
 		}
 	}
 
-	for _, tid := range inpututil.JustPressedTouchIDs() {
+	for _, tid := range ebiten.TouchIDs() {
 		tx, ty := ebiten.TouchPosition(tid)
 		x, y := float64(tx), float64(ty)
 
-		e.Click(day, x, y, w, h)
+		dur := inpututil.TouchPressDuration(tid)
+
+		e.Click(day, x, y, w, h, dur)
 	}
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyRight) {
-		e.Click(nil, -1, 0, w, h)
+		e.Click(nil, -1, 0, w, h, 0)
 	}
 
 	if inpututil.IsKeyJustPressed(ebiten.KeyLeft) {
-		e.Click(nil, 0, -1, w, h)
+		e.Click(nil, 0, -1, w, h, 0)
 	}
 
 	return nil
 }
 
-func (e *Ebitober) Click(day Day, x, y, w, h float64) {
+func (e *Ebitober) Click(day Day, x, y, w, h float64, dur int) {
 	switch {
-	case x == -1, x < aW && h-y < aH:
+	case x == -1, dur == 1 && x < aW && h-y < aH:
 		fmt.Println("prev")
 		e.Day++
 		e.Day %= len(e.Days)
-	case y == -1, w-x < aW && h-y < aH:
+	case y == -1, dur == 1 && w-x < aW && h-y < aH:
 		fmt.Println("next")
 		e.Day--
 		e.Day += len(e.Days)
 		e.Day %= len(e.Days)
 	default:
-		day.Click(x, y, w, h)
+		day.Click(x, y, w, h, dur)
 	}
 }
