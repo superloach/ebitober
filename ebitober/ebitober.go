@@ -30,7 +30,11 @@ func New(ns ...Newer) *Ebitober {
 }
 
 func (e *Ebitober) Layout(ow, oh int) (int, int) {
-	return ow, oh
+	if ow > oh {
+		return oh, oh
+	}
+
+	return ow, ow
 }
 
 func (e *Ebitober) Run() {

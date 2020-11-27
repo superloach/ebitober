@@ -24,7 +24,7 @@ func (e *Ebitober) Loading(s *ebiten.Image, w, h float64) {
 	bw, bh := e.Banner.Size()
 	bwf, bhf := float64(bw), float64(bh)
 
-	scale := fit(w, h, bwf, bhf)
+	scale := w / bwf
 
 	mx := w/2 - scale*bwf/2
 	my := h/2 - scale*bhf/2
@@ -39,12 +39,4 @@ func (e *Ebitober) Loading(s *ebiten.Image, w, h float64) {
 	_ = s.DrawImage(e.Banner, dio)
 
 	ebitenutil.DebugPrint(s, fmt.Sprintf("\n\nEBITOBER (by superloach)\n\nloading %d/%d days", len(e.Days), len(e.Newers)))
-}
-
-func fit(w, h, bw, bh float64) float64 {
-	if w/h > bw/bh {
-		return h / bh
-	}
-
-	return w / bw
 }
